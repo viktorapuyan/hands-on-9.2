@@ -16,26 +16,26 @@ from PIL import Image,ImageOps
 import numpy as np
 def import_and_predict(image_data, model):
     size = (150, 150)
-    image = ImageOps.fit(image_data, size)
+    image = ImageOps.fit(image_data, size, Image.Resampling.LANCZOS)
     img = np.asarray(image)
-    # Remove the extra dimension if it exists
-    if len(img.shape) == 4 and img.shape[-2] == 1:
-        img = np.squeeze(img, axis=-2)
-    # Ensure it has 3 channels if the model expects it
-    elif len(img.shape) == 3 and img.shape[-1] == 1:
-        img = np.repeat(img, 3, axis=-1)
-    elif len(img.shape) == 2:
-        img = np.stack((img,)*3, axis=-1)
-
     img_reshape = img[np.newaxis, ...]
     prediction = model.predict(img_reshape)
     return prediction
+
+model = load_model()
+file = st.file_uploader("Upload an image...", type=["jpg", "jpeg", "png"])
+
 if file is None:
     st.text("Please upload an image file")
 else:
-    image=Image.open(file)
-    st.image(image,use_column_width=True)
-    prediction=import_and_predict(image,model)
-    class_names=['Pneumonia', 'Normal']
-    string="OUTPUT : "+class_names[np.argmax(prediction)]
-    st.success(string)
+    image = Image.open(file).convert('RGB')
+    st.image(image, use_column_width=True)
+    prediction = import_and_predict(image, model)
+    class_names = ['Normal', 'Pneumonia']
+    predicted_class = class_names[np.argmax(prediction)]
+    confidence = f"{np.max(prediction) * 100:.2f}%"
+    string = f"OUTPUT : {predicted_class} (Confidence: {confidence})"
+    if predicted_class == 'Pneumonia':
+        st.error(string)
+    else:
+        st.success(string)
