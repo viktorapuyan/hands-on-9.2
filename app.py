@@ -15,7 +15,7 @@ import cv2
 from PIL import Image,ImageOps
 import numpy as np
 def import_and_predict(image_data, model):
-    size = (64, 64)
+    size = (150, 150)
     image = ImageOps.fit(image_data, size)
     img = np.asarray(image)
     # Remove the extra dimension if it exists
