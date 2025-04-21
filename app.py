@@ -18,12 +18,15 @@ def import_and_predict(image_data, model):
     size = (150, 150)
     image = ImageOps.fit(image_data, size)
     img = np.asarray(image)
-    # Ensure the image has 3 color channels (RGB)
-    if len(img.shape) == 2:  # If it's grayscale (height, width)
-        img = np.expand_dims(img, axis=-1)
-        img = np.repeat(img[..., np.newaxis], 3, axis=-1)
-    elif img.shape[2] == 1: # If it has 1 channel (grayscale)
+    # Remove the extra dimension if it exists
+    if len(img.shape) == 4 and img.shape[-2] == 1:
+        img = np.squeeze(img, axis=-2)
+    # Ensure it has 3 channels if the model expects it
+    elif len(img.shape) == 3 and img.shape[-1] == 1:
         img = np.repeat(img, 3, axis=-1)
+    elif len(img.shape) == 2:
+        img = np.stack((img,)*3, axis=-1)
+
     img_reshape = img[np.newaxis, ...]
     prediction = model.predict(img_reshape)
     return prediction
