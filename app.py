@@ -1,19 +1,14 @@
 import streamlit as st
+from PIL import Image, ImageOps
+import numpy as np
 import tensorflow as tf
 
 @st.cache_resource
 def load_model():
-  model=tf.keras.models.load_model('chest_xray_model.h5')
-  return model
-model=load_model()
-st.write("""
-# Pneumonia Detection"""
-)
-file=st.file_uploader("Choose xray photo from computer",type=["jpg","png"])
+    # Assuming your model is saved in 'pneumonia_model.h5'
+    model = tf.keras.models.load_model('chest_xray_model.h5')
+    return model
 
-import cv2
-from PIL import Image,ImageOps
-import numpy as np
 def import_and_predict(image_data, model):
     size = (150, 150)
     image = ImageOps.fit(image_data, size, Image.Resampling.LANCZOS)
