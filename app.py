@@ -15,7 +15,7 @@ import cv2
 from PIL import Image,ImageOps
 import numpy as np
 def import_and_predict(image_data, model):
-    size = (150, 150)
+    size = (64, 64)
     image = ImageOps.fit(image_data, size)
     img = np.asarray(image)
     # Remove the extra dimension if it exists
@@ -36,6 +36,6 @@ else:
     image=Image.open(file)
     st.image(image,use_column_width=True)
     prediction=import_and_predict(image,model)
-    class_names=['Pneumonia', 'Normal']
+    class_names=['Pneumonia', 'Normal']f
     string="OUTPUT : "+class_names[np.argmax(prediction)]
     st.success(string)
