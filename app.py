@@ -30,8 +30,7 @@ else:
     prediction = import_and_predict(image, model)
     class_names = ['Normal', 'Pneumonia']
     predicted_class = class_names[np.argmax(prediction)]
-    confidence = f"{np.max(prediction) * 100:.2f}%"
-    string = f"OUTPUT : {predicted_class} (Confidence: {confidence})"
+    string = f"OUTPUT : {predicted_class}"
     if predicted_class == 'Pneumonia':
         st.error(string)
     else:
