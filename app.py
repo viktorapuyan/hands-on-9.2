@@ -3,7 +3,7 @@ import tensorflow as tf
 
 @st.cache_resource
 def load_model():
-  model=tf.keras.models.load_model('chest_xray_model.hdf5')
+  model=tf.keras.models.load_model('chest_xray_model.h5')
   return model
 model=load_model()
 st.write("""
