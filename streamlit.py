@@ -30,6 +30,6 @@ else:
   image = Image.open(file)
   st.image(image, use_container_width=True)  
   prediction = import_and_predict(image, model)
-  class_names = ['Cloudy', 'Rain', 'Shine', 'Sunrise']
+  class_names = ['Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot','Corn_(maize)___Common_rust_','Corn_(maize)___healthy','Peach___Bacterial_spot','Peach___healthy']
   string = "The output is: " + class_names[np.argmax(prediction)]
   st.success(string)
