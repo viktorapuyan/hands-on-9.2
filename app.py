@@ -14,12 +14,18 @@ file=st.file_uploader("Choose xray photo from computer",type=["jpg","png"])
 import cv2
 from PIL import Image,ImageOps
 import numpy as np
-def import_and_predict(image_data,model):
-    size=(64,64)
-    image=ImageOps.fit(image_data,size)
-    img=np.asarray(image)
-    img_reshape=img[np.newaxis,...]
-    prediction=model.predict(img_reshape)
+def import_and_predict(image_data, model):
+    size = (64, 64)
+    image = ImageOps.fit(image_data, size)
+    img = np.asarray(image)
+    # Ensure the image has 3 color channels (RGB)
+    if len(img.shape) == 2:  # If it's grayscale (height, width)
+        img = np.expand_dims(img, axis=-1)
+        img = np.repeat(img[..., np.newaxis], 3, axis=-1)
+    elif img.shape[2] == 1: # If it has 1 channel (grayscale)
+        img = np.repeat(img, 3, axis=-1)
+    img_reshape = img[np.newaxis, ...]
+    prediction = model.predict(img_reshape)
     return prediction
 if file is None:
     st.text("Please upload an image file")
