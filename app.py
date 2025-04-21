@@ -8,7 +8,6 @@ def load_model():
     # Assuming your model is saved in 'pneumonia_model.h5'
     model = tf.keras.models.load_model('chest_xray_model.h5')
     return model
-
 def import_and_predict(image_data, model):
     size = (150, 150)
     image = ImageOps.fit(image_data, size, Image.Resampling.LANCZOS)
@@ -18,7 +17,10 @@ def import_and_predict(image_data, model):
     return prediction
 
 model = load_model()
-file = st.file_uploader("Upload an image...", type=["jpg", "jpeg", "png"])
+st.write("""
+# Pneumonia Detection"""
+)
+file = st.file_uploader("Upload an X-Ray Photo...", type=["jpg", "jpeg", "png"])
 
 if file is None:
     st.text("Please upload an image file")
