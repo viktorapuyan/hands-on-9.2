@@ -6,7 +6,7 @@ import tensorflow as tf
 @st.cache_resource
 def load_model():
     # Assuming your model is saved in 'pneumonia_model.h5'
-    model = tf.keras.models.load_model('https://github.com/viktorapuyan/hands-on-9.2/blob/193295df185b44219815b15d3d9bcac3e54cb913/chest_xray_model.h5')
+    model = tf.keras.models.load_model('chest_xray_model.h5')
     return model
 def import_and_predict(image_data, model):
     size = (150, 150)
